@@ -1,2 +1,3 @@
-# replay
-Export Cypress Tests from Google Chrome DevTools' Recorder
+# @cypress/chrome-recorder
+
+Export Cypress Tests from Google Chrome DevTools' Recordings

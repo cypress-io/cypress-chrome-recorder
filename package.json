@@ -1,0 +1,35 @@
+{
+  "name": "@cypress/chrome-recorder",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc --watch",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cypress-io/cypress-chrome-recorder.git"
+  },
+  "keywords": [
+    "cypress",
+    "testing",
+    "automation",
+    "devtools"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cypress-io//cypress-chrome-recorder/issues"
+  },
+  "homepage": "https://github.com/cypress-io//cypress-chrome-recorder#readme",
+  "dependencies": {
+    "@puppeteer/replay": "^0.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "typescript": "^4.6.2"
+  },
+  "type": "module"
+}
