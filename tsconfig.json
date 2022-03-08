@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": false,
+    "outDir": "dist",
+    "declaration": true,
+    "moduleResolution": "Node",
+    "stripInternal": true
+  },
+  "include": ["src/**/*"]
+}
