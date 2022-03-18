@@ -1,4 +1,3 @@
-export declare const transformDirectory: string;
 declare type Flags = {
     force?: boolean;
     dry?: boolean;
@@ -7,5 +6,5 @@ declare type Flags = {
 export declare function runTransforms({ files, flags, }: {
     files: string | string[];
     flags: Flags;
-}): any;
+}): Promise<Promise<string | void>[] | undefined>;
 export {};

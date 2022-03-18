@@ -5,12 +5,8 @@
 import { globbySync } from 'globby';
 import inquirer from 'inquirer';
 import meow from 'meow';
-import chalk from 'chalk';
 
 import { runTransforms } from './transforms.js';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import isGitClean from 'is-git-clean';
 
 // CLI
 const cli = meow(
@@ -43,36 +39,6 @@ Options:
   }
 );
 
-function checkGitStatus(force: boolean | undefined) {
-  let clean = false;
-  let errorMessage = 'Unable to determine if git directory is clean';
-  try {
-    clean = isGitClean.sync(process.cwd());
-    errorMessage = 'Git directory is not clean';
-  } catch (err: any) {
-    if (err && err.stderr && err.stderr.indexOf('Not a git repository') >= 0) {
-      clean = true;
-    }
-  }
-
-  if (!clean) {
-    if (force) {
-      console.log(`WARNING: ${errorMessage}. Forcibly continuing.`);
-    } else {
-      console.log('Thank you for using cypress-chrome-recorder.');
-      console.log(
-        chalk.yellow(
-          '\nBefore we continue, please stash or commit your git changes.'
-        )
-      );
-      console.log(
-        '\nYou may use the --force flag to override this safety check.'
-      );
-      process.exit(1);
-    }
-  }
-}
-
 function expandedFilePaths(filesBeforeExpansion: string[]) {
   const shouldExpandFiles = filesBeforeExpansion.some((file: string) =>
     file.includes('*')
@@ -80,10 +46,6 @@ function expandedFilePaths(filesBeforeExpansion: string[]) {
   return shouldExpandFiles
     ? globbySync(filesBeforeExpansion)
     : filesBeforeExpansion;
-}
-
-if (!cli.flags.dry) {
-  checkGitStatus(cli.flags.force);
 }
 
 inquirer

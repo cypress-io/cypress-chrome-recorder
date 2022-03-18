@@ -1,12 +1,10 @@
-// Based on https://github.com/skovhus/jest-codemods/blob/master/src/cli/transformers.ts
-
-import { execaSync } from 'execa';
 import path from 'path';
+import fs from 'fs';
+import chalk from 'chalk';
 
 import cypressStringifyChromeRecorder from '../main.js';
 
-const __dirname = path.resolve(path.dirname(''));
-export const transformDirectory = path.join(__dirname, '../');
+const __dirname = path.resolve(path.dirname('.'));
 
 // cli flags
 type Flags = {
@@ -15,18 +13,17 @@ type Flags = {
   print?: boolean;
 };
 
-export function runTransforms({
+export async function runTransforms({
   files,
   flags,
 }: {
   files: string | string[];
   flags: Flags;
-}): any {
-  const transformPath = path.join(__dirname, '../main.js');
+}): Promise<Promise<string | void>[] | undefined> {
+  const transformPath = path.join(__dirname, '/dist/main.js');
+  const outputPath = path.join(__dirname, '/recordings');
   const { dry, print } = flags;
-
   const args = ['-t', transformPath].concat(files);
-  console.log('🚀 ~ file: transforms.ts ~ line 28 ~ args', args);
 
   if (dry) {
     args.push('--dry');
@@ -35,15 +32,34 @@ export function runTransforms({
     args.push('--print');
   }
 
-  console.log(`Running Cypress Chrome Recorder: ${args.join(' ')}`);
+  console.log(
+    chalk.green(`Running Cypress Chrome Recorder: ${args.join(' ')}\n`)
+  );
 
-  const result = cypressStringifyChromeRecorder();
+  const results = await cypressStringifyChromeRecorder();
 
-  if (!result) {
-    throw new Error(
-      `Cypress Chrome Recorder was not able to translate anything. Please check the path and try again.`
-    );
+  if (!results) {
+    return;
   }
 
-  return result;
+  return results.map(async (result) => {
+    const testResult = await result;
+    const testName = testResult.split('"');
+    if (dry) {
+      console.log(testResult);
+    } else {
+      try {
+        fs.writeFileSync(
+          path.join(outputPath, `/${testName[1]}.spec.js`),
+          testResult
+        );
+      } catch (err) {
+        console.log(
+          chalk.yellow(
+            'There was an issue writing the output to a file. Please try again.'
+          )
+        );
+      }
+    }
+  });
 }

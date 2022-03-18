@@ -33,10 +33,6 @@ export default async function stringifyRecordings(): Promise<
     const cypressStringified = await stringify(parsedRecording, {
       extension: new CypressStringifyExtension(),
     });
-    console.log(
-      '🚀 ~ file: main.ts ~ line 38 ~ recordings.forEach ~ cypressStringified',
-      cypressStringified
-    );
 
     return cypressStringified;
   });
