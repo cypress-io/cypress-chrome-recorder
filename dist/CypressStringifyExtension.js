@@ -1,18 +1,3 @@
-/**
-    Copyright 2022 Google LLC
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        https://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
- */
 var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
@@ -20,58 +5,132 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _CypressStringifyExtension_instances, _CypressStringifyExtension_appendStepType, _CypressStringifyExtension_appendChangeStep, _CypressStringifyExtension_appendClickStep, _CypressStringifyExtension_appendNavigationStep, _CypressStringifyExtension_appendScrollStep, _CypressStringifyExtension_appendViewportStep;
 import { StringifyExtension } from '@puppeteer/replay';
+// import { recorderChangeTypes } from './constants.js';
 export class CypressStringifyExtension extends StringifyExtension {
     constructor() {
         super(...arguments);
         _CypressStringifyExtension_instances.add(this);
     }
     async beforeAllSteps(out, flow) {
-        console.log('🚀 ~ file: CypressStringifyExtension.ts ~ line 23 ~ CypressStringifyExtension ~ beforeAllSteps ~ flow', flow);
-        out.appendLine(`describe(${flow.title}, function() {`);
-        out.appendLine(`  it(tests ${flow.title}, function() {`).startBlock();
+        out.appendLine(`describe(${formatAsJSLiteral(flow.title)}, () => {`);
+        out
+            .appendLine(`it(${formatAsJSLiteral(`tests ${flow.title}`)}, () => {`)
+            .startBlock();
     }
-    async afterAllSteps(out, flow) {
-        out.appendLine('  });').endBlock();
+    async afterAllSteps(out) {
+        out.appendLine('});').endBlock();
         out.appendLine('});');
     }
     async stringifyStep(out, step, flow) {
-        __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendStepType).call(this, out, step);
+        __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendStepType).call(this, out, step, flow);
         if (step.assertedEvents) {
             // TODO: handle assertions
         }
     }
 }
-_CypressStringifyExtension_instances = new WeakSet(), _CypressStringifyExtension_appendStepType = function _CypressStringifyExtension_appendStepType(out, step) {
+_CypressStringifyExtension_instances = new WeakSet(), _CypressStringifyExtension_appendStepType = function _CypressStringifyExtension_appendStepType(out, step, flow) {
     switch (step.type) {
         case 'click':
-            return __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendClickStep).call(this, out, step);
+            return __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendClickStep).call(this, out, step, flow);
         case 'change':
-            return __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendChangeStep).call(this, out, step);
+            return __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendChangeStep).call(this, out, step, flow);
         case 'setViewport':
             return __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendViewportStep).call(this, out, step);
         case 'scroll':
-            return __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendScrollStep).call(this, out, step);
+            return __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendScrollStep).call(this, out, step, flow);
         case 'navigate':
             return __classPrivateFieldGet(this, _CypressStringifyExtension_instances, "m", _CypressStringifyExtension_appendNavigationStep).call(this, out, step);
-        //   case 'customStep':
-        //     return; // TODO: implement these
-        //   default:
-        //     return assertAllStepTypesAreHandled(step);
+        default:
+            return assertAllValidStepTypesAreHandled(step);
     }
-}, _CypressStringifyExtension_appendChangeStep = function _CypressStringifyExtension_appendChangeStep(out, step) {
-    console.log('🚀 ~ file: CypressStringifyExtension.ts ~ line 85 ~ CypressStringifyExtension ~ #appendChangeStep ~ step', step);
+}, _CypressStringifyExtension_appendChangeStep = function _CypressStringifyExtension_appendChangeStep(out, step, flow) {
+    const cySelector = handleSelectors(step.selectors, flow);
+    if (cySelector) {
+        // handleChangeStep(step);
+        out.appendLine(`${cySelector}.type(${formatAsJSLiteral(step.value)});`);
+    }
+    out.appendLine('');
     // Handle text entry and form elements that update.
-}, _CypressStringifyExtension_appendClickStep = function _CypressStringifyExtension_appendClickStep(out, step) {
-    out.appendLine(`cy.get('[${step.selectors[0]}]').click();`);
+}, _CypressStringifyExtension_appendClickStep = function _CypressStringifyExtension_appendClickStep(out, step, flow) {
+    const cySelector = handleSelectors(step.selectors, flow);
+    if (cySelector) {
+        out.appendLine(`${cySelector}.click();`);
+    }
+    else {
+        out.appendLine(' // TODO');
+    }
+    out.appendLine('');
 }, _CypressStringifyExtension_appendNavigationStep = function _CypressStringifyExtension_appendNavigationStep(out, step) {
-    out.appendLine(`cy.visit("${step.url}");`);
-}, _CypressStringifyExtension_appendScrollStep = function _CypressStringifyExtension_appendScrollStep(out, step) {
+    out.appendLine(`cy.visit(${formatAsJSLiteral(step.url)});`);
+    out.appendLine('');
+}, _CypressStringifyExtension_appendScrollStep = function _CypressStringifyExtension_appendScrollStep(out, step, flow) {
     if ('selectors' in step) {
-        out.appendLine(`cy.get('[${step.selectors[0]}]').scrollTo(${step.x}, ${step.y});`);
+        out.appendLine(`${handleSelectors(step.selectors, flow)}.scrollTo(${step.x}, ${step.y});`);
     }
     else {
         out.appendLine(`cy.scrollTo(${step.x}, ${step.y});`);
     }
+    out.appendLine('');
 }, _CypressStringifyExtension_appendViewportStep = function _CypressStringifyExtension_appendViewportStep(out, step) {
     out.appendLine(`cy.viewport(${step.width}, ${step.height})`);
+    out.appendLine('');
 };
+function formatAsJSLiteral(value) {
+    return JSON.stringify(value);
+}
+function filterArrayByString(selectors, value) {
+    return selectors.filter((selector) => value === 'aria/'
+        ? !selector[0].includes(value)
+        : selector[0].includes(value));
+}
+function handleSelectors(selectors, flow) {
+    // Remove Aria selectors in favor of DOM selectors
+    const nonAriaSelectors = filterArrayByString(selectors, 'aria/');
+    let preferredSelector;
+    // Give preference to user-specified selectors
+    if (flow.selectorAttribute) {
+        preferredSelector = filterArrayByString(nonAriaSelectors, flow.selectorAttribute);
+    }
+    if (preferredSelector && preferredSelector[0]) {
+        return `cy.get(${formatAsJSLiteral(preferredSelector[0][0])})`;
+    }
+    else {
+        return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])})`;
+    }
+    // if (!firstSelector) {
+    //   console.log('No valid selector found.');
+    //   return;
+    // }
+    // if (firstSelector.includes('aria/')) {
+    //   const ariaContent = firstSelector.split('aria/')[1];
+    //   return `cy.contains(${formatAsJSLiteral(ariaContent)})`;
+    // } else {
+    //   return `cy.get(${formatAsJSLiteral(firstSelector)})`;
+    // }
+}
+// function handleChangeStep(step: Schema.ChangeStep): string {
+//   // eslint-disable-next-line prefer-spread
+//   const stepSelectors = step.selectors;
+//   console.log(
+//     '🚀 ~ file: CypressStringifyExtension.ts ~ line 127 ~ handleChangeStep ~ stepSelectors',
+//     stepSelectors
+//   );
+//   stepSelectors.map((selector) => {
+//     console.log(
+//       '🚀 ~ file: CypressStringifyExtension.ts ~ line 123 ~ stepSelectors.map ~ selector',
+//       selector
+//     );
+//     const findChangeElementType = recorderChangeTypes.some((type) =>
+//       selector[0].includes(type)
+//     );
+//     console.log(
+//       '🚀 ~ file: CypressStringifyExtension.ts ~ line 132 ~ handleChangeStep ~ findChangeElement',
+//       findChangeElementType
+//     );
+//   });
+//   // stepSelectors.map((selector) => {})
+//   return '';
+// }
+function assertAllValidStepTypesAreHandled(step) {
+    console.log(`Cypress does not currently handle migrating step type: ${step.type}`);
+}

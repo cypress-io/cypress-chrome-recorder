@@ -1,7 +1,5 @@
-// Based on https://github.com/skovhus/jest-codemods/blob/master/src/cli/transformers.ts
-
-import { execaSync } from 'execa';
 import path from 'path';
+import fs from 'fs';
 
 import cypressStringifyChromeRecorder from '../main.js';
 
@@ -15,18 +13,18 @@ type Flags = {
   print?: boolean;
 };
 
-export function runTransforms({
+export async function runTransforms({
   files,
   flags,
 }: {
   files: string | string[];
   flags: Flags;
-}): any {
+}): Promise<Promise<string | void>[] | undefined> {
   const transformPath = path.join(__dirname, '../main.js');
   const { dry, print } = flags;
 
   const args = ['-t', transformPath].concat(files);
-  console.log('🚀 ~ file: transforms.ts ~ line 28 ~ args', args);
+  // console.log('🚀 ~ file: transforms.ts ~ line 28 ~ args', args);
 
   if (dry) {
     args.push('--dry');
@@ -35,15 +33,27 @@ export function runTransforms({
     args.push('--print');
   }
 
-  console.log(`Running Cypress Chrome Recorder: ${args.join(' ')}`);
+  console.log(`Running Cypress Chrome Recorder: ${args.join(' ')}\n`);
 
-  const result = cypressStringifyChromeRecorder();
+  const results = await cypressStringifyChromeRecorder();
 
-  if (!result) {
-    throw new Error(
-      `Cypress Chrome Recorder was not able to translate anything. Please check the path and try again.`
-    );
+  if (!results) {
+    return;
   }
 
-  return result;
+  return results.map(async (result) => {
+    if (!dry) {
+      try {
+        // TODO: write to correct file with correct file name
+        // fs.writeFileSync(
+        //   path.join(writePath, '../../test.spec.js'),
+        //   await result
+        // );
+      } catch (err) {
+        console.log(`File werr);
+      }
+    } else {
+      return result;
+    }
+  });
 }
