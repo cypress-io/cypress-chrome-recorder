@@ -1,4 +1,3 @@
-export declare const transformDirectory: string;
 declare type Flags = {
     force?: boolean;
     dry?: boolean;
