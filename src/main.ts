@@ -13,7 +13,9 @@ function parseRecording(recording: string): Schema.UserFlow {
   return parse(JSON.parse(recordingContent));
 }
 
-async function stringifyRecordings() {
+export default async function stringifyRecordings(): Promise<
+  Promise<string>[] | undefined
+> {
   const recordings = readdirSync(recordingDirectory);
   // If no recordings found, log message and return.
   if (recordings.length === 0) {
@@ -25,19 +27,15 @@ async function stringifyRecordings() {
   }
 
   // Else, parse and stringify recordings
-  recordings.map(async (recording) => {
+  const stringifiedRecording = recordings.map(async (recording) => {
     const parsedRecording = parseRecording(recording);
 
     const cypressStringified = await stringify(parsedRecording, {
       extension: new CypressStringifyExtension(),
     });
-    console.log(
-      '🚀 ~ file: main.ts ~ line 38 ~ recordings.forEach ~ cypressStringified',
-      cypressStringified
-    );
 
     return cypressStringified;
   });
-}
 
-stringifyRecordings();
+  return stringifiedRecording;
+}
