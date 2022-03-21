@@ -28,6 +28,6 @@ $ npx @cypress/chrome-recorder <relative path to target test file or directory>
 
 | Option      | Description                                               |
 | ----------- | --------------------------------------------------------- |
-| -f, --force | Bypass Git safety checks and force codemods to run        |
+| -f, --force | Bypass Git safety checks and force exporter to run        |
 | -d, --dry   | Dry run (no changes are made to files)                    |
 | -p, --print | Print transformed files to stdout, useful for development |
