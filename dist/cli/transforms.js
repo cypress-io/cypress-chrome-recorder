@@ -5,7 +5,8 @@ import cypressStringifyChromeRecorder from '../main.js';
 const __dirname = path.resolve(path.dirname('.'));
 export async function runTransforms({ files, flags, }) {
     const transformPath = path.join(__dirname, '/dist/main.js');
-    const outputPath = path.join(__dirname, '/recordings');
+    // TODO: make this an input via CLI
+    const outputPath = path.join(__dirname, '/cypress/integration');
     const { dry, print } = flags;
     const args = ['-t', transformPath].concat(files);
     console.log('🚀 ~ file: transforms.ts ~ line 27 ~ files', files);

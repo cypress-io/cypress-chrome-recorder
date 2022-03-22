@@ -1,5 +1,4 @@
 node_modules
-recordings/*.json
-recordings/*.js
+recordings/*
 yarn-error.log
 .DS_Store
