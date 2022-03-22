@@ -14,7 +14,7 @@ export async function stringifyRecording(
   });
 }
 
-export default async function exportChromeRecordingToCypress(
+export default async function cypressStringifyChromeRecorder(
   recordings: string[]
 ): Promise<Promise<string | undefined>[] | undefined> {
   // If no recordings found, log message and return.

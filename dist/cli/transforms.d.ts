@@ -4,7 +4,7 @@ declare type Flags = {
     print?: boolean;
 };
 export declare function runTransforms({ files, flags, }: {
-    files: string | string[];
+    files: string[];
     flags: Flags;
 }): Promise<Promise<string | void>[] | undefined>;
 export {};

@@ -46,11 +46,9 @@ _CypressStringifyExtension_instances = new WeakSet(), _CypressStringifyExtension
 }, _CypressStringifyExtension_appendChangeStep = function _CypressStringifyExtension_appendChangeStep(out, step, flow) {
     const cySelector = handleSelectors(step.selectors, flow);
     if (cySelector) {
-        // handleChangeStep(step);
         out.appendLine(`${cySelector}.type(${formatAsJSLiteral(step.value)});`);
     }
     out.appendLine('');
-    // Handle text entry and form elements that update.
 }, _CypressStringifyExtension_appendClickStep = function _CypressStringifyExtension_appendClickStep(out, step, flow) {
     const cySelector = handleSelectors(step.selectors, flow);
     if (cySelector) {
@@ -72,7 +70,7 @@ _CypressStringifyExtension_instances = new WeakSet(), _CypressStringifyExtension
     }
     out.appendLine('');
 }, _CypressStringifyExtension_appendViewportStep = function _CypressStringifyExtension_appendViewportStep(out, step) {
-    out.appendLine(`cy.viewport(${step.width}, ${step.height})`);
+    out.appendLine(`cy.viewport(${step.width}, ${step.height});`);
     out.appendLine('');
 };
 function formatAsJSLiteral(value) {
@@ -97,40 +95,7 @@ function handleSelectors(selectors, flow) {
     else {
         return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])})`;
     }
-    // if (!firstSelector) {
-    //   console.log('No valid selector found.');
-    //   return;
-    // }
-    // if (firstSelector.includes('aria/')) {
-    //   const ariaContent = firstSelector.split('aria/')[1];
-    //   return `cy.contains(${formatAsJSLiteral(ariaContent)})`;
-    // } else {
-    //   return `cy.get(${formatAsJSLiteral(firstSelector)})`;
-    // }
 }
-// function handleChangeStep(step: Schema.ChangeStep): string {
-//   // eslint-disable-next-line prefer-spread
-//   const stepSelectors = step.selectors;
-//   console.log(
-//     '🚀 ~ file: CypressStringifyExtension.ts ~ line 127 ~ handleChangeStep ~ stepSelectors',
-//     stepSelectors
-//   );
-//   stepSelectors.map((selector) => {
-//     console.log(
-//       '🚀 ~ file: CypressStringifyExtension.ts ~ line 123 ~ stepSelectors.map ~ selector',
-//       selector
-//     );
-//     const findChangeElementType = recorderChangeTypes.some((type) =>
-//       selector[0].includes(type)
-//     );
-//     console.log(
-//       '🚀 ~ file: CypressStringifyExtension.ts ~ line 132 ~ handleChangeStep ~ findChangeElement',
-//       findChangeElementType
-//     );
-//   });
-//   // stepSelectors.map((selector) => {})
-//   return '';
-// }
 function assertAllValidStepTypesAreHandled(step) {
     console.log(`Cypress does not currently handle migrating step type: ${step.type}`);
 }

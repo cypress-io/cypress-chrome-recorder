@@ -56,7 +56,7 @@ inquirer
     .then((answers) => {
     const { files } = answers;
     const filesBeforeExpansion = cli.input.length ? cli.input : files;
-    const filesExpanded = expandedFilePaths([filesBeforeExpansion]);
+    const filesExpanded = expandedFilePaths(filesBeforeExpansion);
     if (!filesExpanded.length) {
         console.log(`No files found matching ${filesBeforeExpansion.join(' ')}`);
         return null;

@@ -1,13 +1,15 @@
-import { readdirSync, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { parse, stringify } from '@puppeteer/replay';
 import { CypressStringifyExtension } from './CypressStringifyExtension.js';
-const recordingDirectory = './recordings';
-function parseRecording(recording) {
-    const recordingContent = readFileSync(`${recordingDirectory}/${recording}`, 'utf8');
+function parseRecording(recordingContent) {
     return parse(JSON.parse(recordingContent));
 }
-export default async function stringifyRecordings() {
-    const recordings = readdirSync(recordingDirectory);
+export async function stringifyRecording(parsedRecording) {
+    return await stringify(parsedRecording, {
+        extension: new CypressStringifyExtension(),
+    });
+}
+export default async function cypressStringifyChromeRecorder(recordings) {
     // If no recordings found, log message and return.
     if (recordings.length === 0) {
         console.log('No recordings found. Please create and upload one before trying again.');
@@ -15,10 +17,9 @@ export default async function stringifyRecordings() {
     }
     // Else, parse and stringify recordings
     const stringifiedRecording = recordings.map(async (recording) => {
-        const parsedRecording = parseRecording(recording);
-        const cypressStringified = await stringify(parsedRecording, {
-            extension: new CypressStringifyExtension(),
-        });
+        const recordingContent = readFileSync(`${recording}`, 'utf8');
+        const parsedRecording = parseRecording(recordingContent);
+        const cypressStringified = await stringifyRecording(parsedRecording);
         return cypressStringified;
     });
     return stringifiedRecording;

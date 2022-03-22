@@ -8,19 +8,23 @@ export async function runTransforms({ files, flags, }) {
     const outputPath = path.join(__dirname, '/recordings');
     const { dry, print } = flags;
     const args = ['-t', transformPath].concat(files);
+    console.log('🚀 ~ file: transforms.ts ~ line 27 ~ files', files);
     if (dry) {
         args.push('--dry');
     }
     if (print) {
         args.push('--print');
     }
-    console.log(chalk.green(`Running Cypress Chrome Recorder: ${args.join(' ')}\n`));
-    const results = await cypressStringifyChromeRecorder();
-    if (!results) {
+    console.log(chalk.green(`Running Cypress Chrome Recorder: ${files}\n`));
+    const stringifiedResults = await cypressStringifyChromeRecorder(files);
+    if (!stringifiedResults) {
         return;
     }
-    return results.map(async (result) => {
-        const testResult = await result;
+    return stringifiedResults.map(async (stringifiedResult) => {
+        const testResult = await stringifiedResult;
+        if (!testResult) {
+            return;
+        }
         const testName = testResult.split('"');
         if (dry) {
             console.log(testResult);
