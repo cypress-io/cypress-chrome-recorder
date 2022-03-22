@@ -109,4 +109,19 @@ describe('CypressStringifyExtension', function () {
 
     assert.equal(writer.toString(), '');
   });
+
+  it('correctly handles keyUp step type', async function () {
+    const ext = new CypressStringifyExtension();
+    const step = {
+      type: 'keyUp' as const,
+      target: 'main',
+      key: 'Meta',
+    };
+    const flow = { title: 'keyUp step', steps: [step] };
+    const writer = new LineWriterImpl('  ');
+
+    await ext.stringifyStep(writer, step, flow);
+
+    assert.equal(writer.toString(), '');
+  });
 });
