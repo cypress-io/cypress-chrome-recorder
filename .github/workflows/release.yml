@@ -13,19 +13,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 16.x
       - name: Install dependencies
         run: npx ci
       - name: Install semantic-release extra plugins
-        run: npm install --save-dev @semantic-release/changelog @semantic-release/git
+        run: yarn add -D @semantic-release/changelog @semantic-release/git
       # - name: Lint
       #   run: npm run lint-fix
-      # - name: Test
-      #   run: npm run test:unit --if-present
+      - name: Test
+        run: yarn test
       - name: Build
-        run: npm run build
+        run: yarn build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
