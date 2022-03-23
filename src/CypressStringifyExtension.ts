@@ -1,9 +1,19 @@
-import { LineWriter, Schema, StringifyExtension } from '@puppeteer/replay';
+import { LineWriter, StringifyExtension } from '@puppeteer/replay';
+import {
+  ChangeStep,
+  ClickStep,
+  NavigateStep,
+  ScrollStep,
+  SetViewportStep,
+  Selector,
+  Step,
+  UserFlow,
+} from '@puppeteer/replay/lib/Schema';
 
 // import { recorderChangeTypes } from './constants.js';
 
 export class CypressStringifyExtension extends StringifyExtension {
-  async beforeAllSteps(out: LineWriter, flow: Schema.UserFlow): Promise<void> {
+  async beforeAllSteps(out: LineWriter, flow: UserFlow): Promise<void> {
     out.appendLine(`describe(${formatAsJSLiteral(flow.title)}, () => {`);
     out
       .appendLine(`it(${formatAsJSLiteral(`tests ${flow.title}`)}, () => {`)
@@ -17,8 +27,8 @@ export class CypressStringifyExtension extends StringifyExtension {
 
   async stringifyStep(
     out: LineWriter,
-    step: Schema.Step,
-    flow: Schema.UserFlow
+    step: Step,
+    flow: UserFlow
   ): Promise<void> {
     this.#appendStepType(out, step, flow);
 
@@ -27,11 +37,7 @@ export class CypressStringifyExtension extends StringifyExtension {
     }
   }
 
-  #appendStepType(
-    out: LineWriter,
-    step: Schema.Step,
-    flow: Schema.UserFlow
-  ): void {
+  #appendStepType(out: LineWriter, step: Step, flow: UserFlow): void {
     switch (step.type) {
       case 'click':
         return this.#appendClickStep(out, step, flow);
@@ -48,11 +54,7 @@ export class CypressStringifyExtension extends StringifyExtension {
     }
   }
 
-  #appendChangeStep(
-    out: LineWriter,
-    step: Schema.ChangeStep,
-    flow: Schema.UserFlow
-  ): void {
+  #appendChangeStep(out: LineWriter, step: ChangeStep, flow: UserFlow): void {
     const cySelector = handleSelectors(step.selectors, flow);
 
     if (cySelector) {
@@ -64,11 +66,7 @@ export class CypressStringifyExtension extends StringifyExtension {
     // Handle text entry and form elements that update.
   }
 
-  #appendClickStep(
-    out: LineWriter,
-    step: Schema.ClickStep,
-    flow: Schema.UserFlow
-  ): void {
+  #appendClickStep(out: LineWriter, step: ClickStep, flow: UserFlow): void {
     const cySelector = handleSelectors(step.selectors, flow);
 
     if (cySelector) {
@@ -80,16 +78,12 @@ export class CypressStringifyExtension extends StringifyExtension {
     out.appendLine('');
   }
 
-  #appendNavigationStep(out: LineWriter, step: Schema.NavigateStep): void {
+  #appendNavigationStep(out: LineWriter, step: NavigateStep): void {
     out.appendLine(`cy.visit(${formatAsJSLiteral(step.url)});`);
     out.appendLine('');
   }
 
-  #appendScrollStep(
-    out: LineWriter,
-    step: Schema.ScrollStep,
-    flow: Schema.UserFlow
-  ): void {
+  #appendScrollStep(out: LineWriter, step: ScrollStep, flow: UserFlow): void {
     if ('selectors' in step) {
       out.appendLine(
         `${handleSelectors(step.selectors, flow)}.scrollTo(${step.x}, ${
@@ -102,7 +96,7 @@ export class CypressStringifyExtension extends StringifyExtension {
     out.appendLine('');
   }
 
-  #appendViewportStep(out: LineWriter, step: Schema.SetViewportStep): void {
+  #appendViewportStep(out: LineWriter, step: SetViewportStep): void {
     out.appendLine(`cy.viewport(${step.width}, ${step.height})`);
     out.appendLine('');
   }
@@ -112,7 +106,7 @@ function formatAsJSLiteral(value: string) {
   return JSON.stringify(value);
 }
 
-function filterArrayByString(selectors: Schema.Selector[], value: string) {
+function filterArrayByString(selectors: Selector[], value: string) {
   return selectors.filter((selector) =>
     value === 'aria/'
       ? !selector[0].includes(value)
@@ -121,8 +115,8 @@ function filterArrayByString(selectors: Schema.Selector[], value: string) {
 }
 
 function handleSelectors(
-  selectors: Schema.Selector[],
-  flow: Schema.UserFlow
+  selectors: Selector[],
+  flow: UserFlow
 ): string | undefined {
   // Remove Aria selectors in favor of DOM selectors
   const nonAriaSelectors = filterArrayByString(selectors, 'aria/');
@@ -140,47 +134,9 @@ function handleSelectors(
   } else {
     return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])})`;
   }
-  // if (!firstSelector) {
-  //   console.log('No valid selector found.');
-  //   return;
-  // }
-
-  // if (firstSelector.includes('aria/')) {
-  //   const ariaContent = firstSelector.split('aria/')[1];
-
-  //   return `cy.contains(${formatAsJSLiteral(ariaContent)})`;
-  // } else {
-  //   return `cy.get(${formatAsJSLiteral(firstSelector)})`;
-  // }
 }
 
-// function handleChangeStep(step: Schema.ChangeStep): string {
-//   // eslint-disable-next-line prefer-spread
-//   const stepSelectors = step.selectors;
-//   console.log(
-//     '🚀 ~ file: CypressStringifyExtension.ts ~ line 127 ~ handleChangeStep ~ stepSelectors',
-//     stepSelectors
-//   );
-
-//   stepSelectors.map((selector) => {
-//     console.log(
-//       '🚀 ~ file: CypressStringifyExtension.ts ~ line 123 ~ stepSelectors.map ~ selector',
-//       selector
-//     );
-//     const findChangeElementType = recorderChangeTypes.some((type) =>
-//       selector[0].includes(type)
-//     );
-//     console.log(
-//       '🚀 ~ file: CypressStringifyExtension.ts ~ line 132 ~ handleChangeStep ~ findChangeElement',
-//       findChangeElementType
-//     );
-//   });
-
-//   // stepSelectors.map((selector) => {})
-//   return '';
-// }
-
-function assertAllValidStepTypesAreHandled(step: Schema.Step): void {
+function assertAllValidStepTypesAreHandled(step: Step): void {
   console.log(
     `Cypress does not currently handle migrating step type: ${step.type}`
   );

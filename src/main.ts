@@ -1,10 +1,11 @@
 import { readdirSync, readFileSync } from 'fs';
-import { parse, stringify, Schema } from '@puppeteer/replay';
+import { parse, stringify } from '@puppeteer/replay';
 import { CypressStringifyExtension } from './CypressStringifyExtension.js';
+import { UserFlow } from '@puppeteer/replay/lib/Schema';
 
 const recordingDirectory = './recordings';
 
-function parseRecording(recording: string): Schema.UserFlow {
+function parseRecording(recording: string): UserFlow {
   const recordingContent = readFileSync(
     `${recordingDirectory}/${recording}`,
     'utf8'

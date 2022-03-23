@@ -44,10 +44,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@puppeteer/replay@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@puppeteer/replay/-/replay-0.0.4.tgz#2839e1fa9f8b1a06cb9797f015e018569ae2b6b3"
-  integrity sha512-sr1/C7vC/B3PT3NhWm00CPuwfq4uVwwRgbXOKqTZgGphXnIDhfdnSY39ow60DgEkrfMQzx2xkMsGTvxe5rYRtA==
+"@puppeteer/replay@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@puppeteer/replay/-/replay-0.1.0.tgz#442b725f32c82fcfa8ec77985faa9cca9ce6b192"
+  integrity sha512-6Uw0EwfE0okqMxnJyx0re5y3jewZ+1GNApBkBb8piTSlNBmR7zNcQ9xchImEK5vbRSwIcvjB3lvGq0TeIw6vSA==
 
 "@types/inquirer@^8.2.0":
   version "8.2.0"
