@@ -100,7 +100,7 @@ describe('CypressStringifyExtension', function () {
     const step = {
       type: 'keyDown' as const,
       target: 'main',
-      key: 'Meta',
+      key: 'Meta' as const,
     };
     const flow = { title: 'keyDown step', steps: [step] };
     const writer = new LineWriterImpl('  ');
@@ -115,7 +115,7 @@ describe('CypressStringifyExtension', function () {
     const step = {
       type: 'keyUp' as const,
       target: 'main',
-      key: 'Meta',
+      key: 'Meta' as const,
     };
     const flow = { title: 'keyUp step', steps: [step] };
     const writer = new LineWriterImpl('  ');
