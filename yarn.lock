@@ -105,10 +105,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@puppeteer/replay@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.npmjs.org/@puppeteer/replay/-/replay-0.0.4.tgz"
-  integrity sha512-sr1/C7vC/B3PT3NhWm00CPuwfq4uVwwRgbXOKqTZgGphXnIDhfdnSY39ow60DgEkrfMQzx2xkMsGTvxe5rYRtA==
+"@puppeteer/replay@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@puppeteer/replay/-/replay-0.1.0.tgz#442b725f32c82fcfa8ec77985faa9cca9ce6b192"
+  integrity sha512-6Uw0EwfE0okqMxnJyx0re5y3jewZ+1GNApBkBb8piTSlNBmR7zNcQ9xchImEK5vbRSwIcvjB3lvGq0TeIw6vSA==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
@@ -1945,28 +1945,9 @@ trim-newlines@^4.0.2:
   resolved "https://registry.npmjs.org/trim-newlines/-/trim-newlines-4.0.2.tgz"
   integrity sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==
 
-ts-node@^10.6.0:
+ts-node@^10.6.0, ts-node@^10.7.0:
   version "10.7.0"
   resolved "https://registry.npmjs.org/ts-node/-/ts-node-10.7.0.tgz"
-  integrity sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==
-  dependencies:
-    "@cspotcode/source-map-support" "0.7.0"
-    "@tsconfig/node10" "^1.0.7"
-    "@tsconfig/node12" "^1.0.7"
-    "@tsconfig/node14" "^1.0.0"
-    "@tsconfig/node16" "^1.0.2"
-    acorn "^8.4.1"
-    acorn-walk "^8.1.1"
-    arg "^4.1.0"
-    create-require "^1.1.0"
-    diff "^4.0.1"
-    make-error "^1.1.1"
-    v8-compile-cache-lib "^3.0.0"
-    yn "3.1.1"
-
-ts-node@^10.7.0:
-  version "10.7.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.7.0.tgz#35d503d0fab3e2baa672a0e94f4b40653c2463f5"
   integrity sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==
   dependencies:
     "@cspotcode/source-map-support" "0.7.0"
