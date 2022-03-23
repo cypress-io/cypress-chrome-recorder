@@ -17,13 +17,15 @@ export async function runTransforms({
   files,
   flags,
 }: {
-  files: string | string[];
+  files: string[];
   flags: Flags;
 }): Promise<Promise<string | void>[] | undefined> {
   const transformPath = path.join(__dirname, '/dist/main.js');
-  const outputPath = path.join(__dirname, '/recordings');
+  // TODO: make this an input via CLI
+  const outputPath = path.join(__dirname, '/cypress/integration');
   const { dry, print } = flags;
   const args = ['-t', transformPath].concat(files);
+  console.log('🚀 ~ file: transforms.ts ~ line 27 ~ files', files);
 
   if (dry) {
     args.push('--dry');
@@ -32,26 +34,30 @@ export async function runTransforms({
     args.push('--print');
   }
 
-  console.log(
-    chalk.green(`Running Cypress Chrome Recorder: ${args.join(' ')}\n`)
-  );
+  console.log(chalk.green(`Running Cypress Chrome Recorder: ${files}\n`));
 
-  const results = await cypressStringifyChromeRecorder();
+  const stringifiedResults = await cypressStringifyChromeRecorder(files);
 
-  if (!results) {
+  if (!stringifiedResults) {
     return;
   }
 
-  return results.map(async (result) => {
-    const testResult = await result;
+  return stringifiedResults.map(async (stringifiedResult) => {
+    const testResult = await stringifiedResult;
+
+    if (!testResult) {
+      return;
+    }
+
     const testName = testResult.split('"');
+
     if (dry) {
       console.log(testResult);
     } else {
       try {
         fs.writeFileSync(
           path.join(outputPath, `/${testName[1]}.spec.js`),
-          testResult
+          testResult as string
         );
       } catch (err) {
         console.log(

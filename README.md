@@ -1,5 +1,7 @@
 # @cypress/chrome-recorder
 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 This repo provides tools to export Cypress Tests from Google Chrome DevTools' Recordings
 
 ## Installation
@@ -24,10 +26,18 @@ If you prefer to enter paths via the CLI, you can run:
 $ npx @cypress/chrome-recorder <relative path to target test file or directory>
 ```
 
+**_ Note: _** Currently the output will be written to `cypress/integration`. If you do not have that folder, create it or install Cypress by running `yarn add -D cypress` or `npm install --save-dev cypress` in your project.
+
 ### CLI Options
 
 | Option      | Description                                               |
 | ----------- | --------------------------------------------------------- |
-| -f, --force | Bypass Git safety checks and force codemods to run        |
+| -f, --force | Bypass Git safety checks and force exporter to run        |
 | -d, --dry   | Dry run (no changes are made to files)                    |
 | -p, --print | Print transformed files to stdout, useful for development |
+
+### License
+
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cypress-io/cypress-chrome-recorder/blob/master/LICENSE)
+
+This project is licensed under the terms of the [MIT license](/LICENSE).
