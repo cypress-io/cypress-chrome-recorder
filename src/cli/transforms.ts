@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 
-import cypressStringifyChromeRecorder from '../main.js';
+import { cypressStringifyChromeRecorder } from '../main.js';
 
 const __dirname = path.resolve(path.dirname('.'));
 

@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { parse, stringify, Schema } from '@puppeteer/replay';
 import { CypressStringifyExtension } from './CypressStringifyExtension.js';
 
-function parseRecording(recordingContent: string): Schema.UserFlow {
+export function parseRecording(recordingContent: string): Schema.UserFlow {
   return parse(JSON.parse(recordingContent));
 }
 
@@ -14,7 +14,7 @@ export async function stringifyRecording(
   });
 }
 
-export default async function cypressStringifyChromeRecorder(
+export async function cypressStringifyChromeRecorder(
   recordings: string[]
 ): Promise<Promise<string | undefined>[] | undefined> {
   // If no recordings found, log message and return.
