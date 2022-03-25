@@ -1,8 +1,8 @@
 import path from 'path';
-import fs from 'fs';
+import fs, { readFileSync } from 'fs';
 import chalk from 'chalk';
 
-import cypressStringifyChromeRecorder from '../main.js';
+import { cypressStringifyChromeRecording } from '../main.js';
 
 const __dirname = path.resolve(path.dirname('.'));
 
@@ -36,28 +36,25 @@ export async function runTransforms({
 
   console.log(chalk.green(`Running Cypress Chrome Recorder: ${files}\n`));
 
-  const stringifiedResults = await cypressStringifyChromeRecorder(files);
+  return files.map(async (file) => {
+    const recordingContent = readFileSync(`${file}`, 'utf8');
+    const stringifiedFile = await cypressStringifyChromeRecording(
+      recordingContent
+    );
 
-  if (!stringifiedResults) {
-    return;
-  }
-
-  return stringifiedResults.map(async (stringifiedResult) => {
-    const testResult = await stringifiedResult;
-
-    if (!testResult) {
+    if (!stringifiedFile) {
       return;
     }
 
-    const testName = testResult.split('"');
+    const testName = file.split('/')[1].replace('.json', '');
 
     if (dry) {
-      console.log(testResult);
+      console.log(stringifiedFile);
     } else {
       try {
         fs.writeFileSync(
-          path.join(outputPath, `/${testName[1]}.spec.js`),
-          testResult as string
+          path.join(outputPath, `/${testName}.spec.js`),
+          stringifiedFile as string
         );
       } catch (err) {
         console.log(
