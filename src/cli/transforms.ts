@@ -38,10 +38,6 @@ export async function runTransforms({
 
   return files.map(async (file) => {
     const recordingContent = readFileSync(`${file}`, 'utf8');
-    console.log(
-      '🚀 ~ file: transforms.ts ~ line 41 ~ returnfiles.map ~ recordingContent',
-      typeof recordingContent
-    );
     const stringifiedFile = await cypressStringifyChromeRecording(
       recordingContent
     );

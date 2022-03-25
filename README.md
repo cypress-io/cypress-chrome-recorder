@@ -28,9 +28,19 @@ If you prefer to enter paths via the CLI, you can run:
 $ npx @cypress/chrome-recorder <relative path to target test file or directory>
 ```
 
-###
-
 **_ Note: _** Currently the output will be written to `cypress/integration`. If you do not have that folder, create it or install Cypress by running `yarn add -D cypress` or `npm install --save-dev cypress` in your project.
+
+### Import
+
+```js
+import { cypressStringifyChromeRecording } from '@cypress/chrome-recorder';
+
+const stringifiedContent = await cypressStringifyChromeRecording(
+  recordingContent
+);
+
+return stringifiedContent;
+```
 
 ### CLI Options
 
