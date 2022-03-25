@@ -10,7 +10,9 @@ This repo provides tools to export Cypress Tests from Google Chrome DevTools' Re
 $ npm install -g @cypress/chrome-recorder
 ```
 
-## Usage (CLI)
+## Usage
+
+### CLI
 
 To use the interactive CLI, run:
 
@@ -26,6 +28,8 @@ If you prefer to enter paths via the CLI, you can run:
 $ npx @cypress/chrome-recorder <relative path to target test file or directory>
 ```
 
+###
+
 **_ Note: _** Currently the output will be written to `cypress/integration`. If you do not have that folder, create it or install Cypress by running `yarn add -D cypress` or `npm install --save-dev cypress` in your project.
 
 ### CLI Options
@@ -36,7 +40,7 @@ $ npx @cypress/chrome-recorder <relative path to target test file or directory>
 | -d, --dry   | Dry run (no changes are made to files)                    |
 | -p, --print | Print transformed files to stdout, useful for development |
 
-### License
+## License
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cypress-io/cypress-chrome-recorder/blob/master/LICENSE)
 

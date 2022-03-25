@@ -16,11 +16,11 @@ export async function stringifyParsedRecording(
   });
 }
 
-export async function cypressStringifyChromeRecordings(
-  recordings: string[]
-): Promise<Promise<string | undefined>[] | undefined> {
+export async function cypressStringifyChromeRecording(
+  recording: string
+): Promise<string | undefined> {
   // If no recordings found, log message and return.
-  if (recordings.length === 0) {
+  if (recording.length === 0) {
     console.log(
       'No recordings found. Please create and upload one before trying again.'
     );
@@ -28,15 +28,9 @@ export async function cypressStringifyChromeRecordings(
     return;
   }
 
-  // Else, parse and stringify recordings
-  const stringifiedRecording = recordings.map(async (recording) => {
-    const recordingContent = readFileSync(`${recording}`, 'utf8');
-    const parsedRecording = parseRecordingContent(recordingContent);
+  const parsedRecording = parseRecordingContent(recording);
 
-    const cypressStringified = await stringifyParsedRecording(parsedRecording);
+  const cypressStringified = await stringifyParsedRecording(parsedRecording);
 
-    return cypressStringified;
-  });
-
-  return stringifiedRecording;
+  return cypressStringified;
 }
