@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 
-import { cypressStringifyChromeRecorder } from '../main.js';
+import { cypressStringifyChromeRecordings } from '../main.js';
 
 const __dirname = path.resolve(path.dirname('.'));
 
@@ -36,7 +36,7 @@ export async function runTransforms({
 
   console.log(chalk.green(`Running Cypress Chrome Recorder: ${files}\n`));
 
-  const stringifiedResults = await cypressStringifyChromeRecorder(files);
+  const stringifiedResults = await cypressStringifyChromeRecordings(files);
 
   if (!stringifiedResults) {
     return;
