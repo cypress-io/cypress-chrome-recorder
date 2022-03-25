@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.0.0...v1.0.1) (2022-03-25)
+
+
+### Bug Fixes
+
+* remove console log ([62f3639](https://github.com/cypress-io/cypress-chrome-recorder/commit/62f363944b43be1e4043b632f5cdcdcf6be8982a))
+
 # 1.0.0 (2022-03-23)
 
 
