@@ -25,7 +25,6 @@ export async function runTransforms({
   const outputPath = path.join(__dirname, '/cypress/integration');
   const { dry, print } = flags;
   const args = ['-t', transformPath].concat(files);
-  console.log('🚀 ~ file: transforms.ts ~ line 27 ~ files', files);
 
   if (dry) {
     args.push('--dry');
