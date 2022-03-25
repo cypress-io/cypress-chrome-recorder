@@ -1,4 +1,3 @@
-import { readFileSync } from 'fs';
 import { parse, stringify, Schema } from '@puppeteer/replay';
 import { CypressStringifyExtension } from './CypressStringifyExtension.js';
 
