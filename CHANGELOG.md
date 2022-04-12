@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.0.1...v1.1.0) (2022-04-12)
+
+
+### Features
+
+* **replay:** update puppeteer/replay library ([47a2669](https://github.com/cypress-io/cypress-chrome-recorder/commit/47a26698c7249a6358c86d6a98b05a526d4bd9ce))
+
 ## [1.0.1](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.0.0...v1.0.1) (2022-03-25)
 
 
