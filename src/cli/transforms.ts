@@ -46,15 +46,7 @@ export async function runTransforms({
     }
 
     const fileName = file.split('/').pop();
-    console.log(
-      '🚀 ~ file: transforms.ts ~ line 49 ~ returnfiles.map ~ fileName',
-      fileName
-    );
     const testName = fileName ? fileName.replace('.json', '') : undefined;
-    console.log(
-      '🚀 ~ file: transforms.ts ~ line 51 ~ returnfiles.map ~ testName',
-      testName
-    );
 
     if (dry) {
       console.log(stringifiedFile);
