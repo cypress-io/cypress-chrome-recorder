@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.1.0...v1.1.1) (2022-04-25)
+
+
+### Bug Fixes
+
+* **filenames:** ensure correct filename is exported regardless of nesting. add version tag to readme. ([a5c8334](https://github.com/cypress-io/cypress-chrome-recorder/commit/a5c8334541fd1b7191ba475aa2f79d5c311572c2))
+
 # [1.1.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.0.1...v1.1.0) (2022-04-12)
 
 
