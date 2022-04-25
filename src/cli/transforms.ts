@@ -45,10 +45,15 @@ export async function runTransforms({
       return;
     }
 
-    const testName = file.split('/')[1].replace('.json', '');
+    const fileName = file.split('/').pop();
+    const testName = fileName ? fileName.replace('.json', '') : undefined;
 
     if (dry) {
       console.log(stringifiedFile);
+    } else if (!testName) {
+      console.log(
+        chalk.red('No file or folder was found to export. Please try again.')
+      );
     } else {
       try {
         fs.writeFileSync(
