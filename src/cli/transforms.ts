@@ -45,10 +45,23 @@ export async function runTransforms({
       return;
     }
 
-    const testName = file.split('/')[1].replace('.json', '');
+    const fileName = file.split('/').pop();
+    console.log(
+      '🚀 ~ file: transforms.ts ~ line 49 ~ returnfiles.map ~ fileName',
+      fileName
+    );
+    const testName = fileName ? fileName.replace('.json', '') : undefined;
+    console.log(
+      '🚀 ~ file: transforms.ts ~ line 51 ~ returnfiles.map ~ testName',
+      testName
+    );
 
     if (dry) {
       console.log(stringifiedFile);
+    } else if (!testName) {
+      console.log(
+        chalk.red('No file or folder was found to export. Please try again.')
+      );
     } else {
       try {
         fs.writeFileSync(

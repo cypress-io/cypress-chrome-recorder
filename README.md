@@ -1,6 +1,6 @@
 # @cypress/chrome-recorder
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/cypress-io/cypress-chrome-recorder) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 This repo provides tools to export Cypress Tests from Google Chrome DevTools' Recordings
 
@@ -12,7 +12,7 @@ $ npm install -g @cypress/chrome-recorder
 
 ## Usage
 
-### CLI
+### Via CLI
 
 To use the interactive CLI, run:
 
@@ -28,9 +28,17 @@ If you prefer to enter paths via the CLI, you can run:
 $ npx @cypress/chrome-recorder <relative path to target test file or directory>
 ```
 
-**_ Note: _** Currently the output will be written to `cypress/integration`. If you do not have that folder, create it or install Cypress by running `yarn add -D cypress` or `npm install --save-dev cypress` in your project.
+### CLI Options
 
-### Import
+| Option      | Description                                               |
+| ----------- | --------------------------------------------------------- |
+| -f, --force | Bypass Git safety checks and force exporter to run        |
+| -d, --dry   | Dry run (no changes are made to files)                    |
+| -p, --print | Print transformed files to stdout, useful for development |
+
+**Note:** Currently the output will be written to `cypress/integration`. If you do not have that folder, create it or install Cypress by running `yarn add -D cypress` or `npm install --save-dev cypress` in your project.
+
+### Via Import
 
 ```js
 import { cypressStringifyChromeRecording } from '@cypress/chrome-recorder';
@@ -41,14 +49,6 @@ const stringifiedContent = await cypressStringifyChromeRecording(
 
 return stringifiedContent;
 ```
-
-### CLI Options
-
-| Option      | Description                                               |
-| ----------- | --------------------------------------------------------- |
-| -f, --force | Bypass Git safety checks and force exporter to run        |
-| -d, --dry   | Dry run (no changes are made to files)                    |
-| -p, --print | Print transformed files to stdout, useful for development |
 
 ## License
 
