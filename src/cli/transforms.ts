@@ -10,19 +10,69 @@ const __dirname = path.resolve(path.dirname('.'));
 type Flags = {
   force?: boolean;
   dry?: boolean;
+  path?: string;
   print?: boolean;
 };
 
+interface FileToExport {
+  stringifiedFile: string;
+  testName: string;
+  outputFolder: string;
+  outputPath: string;
+}
+
+async function exportFileToFolder({
+  stringifiedFile,
+  testName,
+  outputFolder,
+  outputPath,
+}: FileToExport) {
+  fs.writeFile(
+    path.join(outputFolder, `/${testName}.spec.js`),
+    stringifiedFile as string,
+    (err: any) => {
+      if (!err) {
+        console.log(
+          chalk.green(
+            `\n${testName}.json exported to ${outputPath}/${testName}.spec.js\n`
+          )
+        );
+      }
+
+      if (err) {
+        if (err?.path?.includes('cypress/integration')) {
+          const outputFolder = path.join(__dirname, 'cypress/e2e');
+          const outputPath = 'cypress/e2e';
+
+          exportFileToFolder({
+            stringifiedFile,
+            testName,
+            outputFolder,
+            outputPath,
+          });
+        } else {
+          console.log(
+            chalk.yellow(
+              `\nThere was an issue writing the output to ${outputPath}. Please check that it exists and try again.`
+            )
+          );
+        }
+      }
+    }
+  );
+}
+
 export async function runTransforms({
   files,
+  outputPath,
   flags,
 }: {
   files: string[];
+  outputPath: string;
   flags: Flags;
 }): Promise<Promise<string | void>[] | undefined> {
   const transformPath = path.join(__dirname, '/dist/main.js');
-  // TODO: make this an input via CLI
-  const outputPath = path.join(__dirname, '/cypress/integration');
+  const outputFolder = path.join(__dirname, outputPath);
   const { dry, print } = flags;
   const args = ['-t', transformPath].concat(files);
 
@@ -33,9 +83,9 @@ export async function runTransforms({
     args.push('--print');
   }
 
-  console.log(chalk.green(`Running Cypress Chrome Recorder: ${files}\n`));
-
   return files.map(async (file) => {
+    console.log(chalk.green(`Running Cypress Chrome Recorder on ${file}\n`));
+
     const recordingContent = readFileSync(`${file}`, 'utf8');
     const stringifiedFile = await cypressStringifyChromeRecording(
       recordingContent
@@ -55,18 +105,12 @@ export async function runTransforms({
         chalk.red('No file or folder was found to export. Please try again.')
       );
     } else {
-      try {
-        fs.writeFileSync(
-          path.join(outputPath, `/${testName}.spec.js`),
-          stringifiedFile as string
-        );
-      } catch (err) {
-        console.log(
-          chalk.yellow(
-            'There was an issue writing the output to a file. Please try again.'
-          )
-        );
-      }
+      exportFileToFolder({
+        stringifiedFile,
+        testName,
+        outputFolder,
+        outputPath,
+      });
     }
   });
 }
