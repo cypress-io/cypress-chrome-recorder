@@ -4,6 +4,10 @@
 
 This repo provides tools to export Cypress Tests from Google Chrome DevTools' Recordings
 
+## Prerequisites
+
+In order to export JSON files from Chrome DevTools Recorder you will need to be on Chrome 101 or newer.
+
 ## Installation
 
 ```sh
