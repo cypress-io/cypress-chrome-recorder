@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.1.1...v1.2.0) (2022-04-29)
+
+
+### Features
+
+* add output path flag and input so users can specify output folder. ([96512fa](https://github.com/cypress-io/cypress-chrome-recorder/commit/96512fae0b15dd2333fedd01ad310de17b1e868e))
+
 ## [1.1.1](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.1.0...v1.1.1) (2022-04-25)
 
 
