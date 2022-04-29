@@ -20,3 +20,5 @@ export const recorderChangeTypes: RecorderChangeTypes[] = [
   'number',
   'email',
 ];
+
+export const defaultOutputFolder = 'cypress/integration';
