@@ -78,11 +78,12 @@ Below are the step types that are currently supported:
 | click       | becomes **cy.click(element)**                 |
 | change      | becomes **cy.get(element).type("text")**      |
 | keyDown     | becomes **cy.type("{key}")**                  |
+| keyUp       | _not exported at this time_                   |
 | navigate    | becomes **cy.visit("url")**                   |
 | setViewport | becomes **cy.viewport(width, height)**        |
 | scroll      | becomes **cy.scrollTo(${step.x}, ${step.y})** |
 
-If a step type is not supported (ie. `keyUp`) then a warning message will be displayed in the CLI.
+If a step type is not listed above, then a warning message should be displayed in the CLI.
 
 ## License
 
