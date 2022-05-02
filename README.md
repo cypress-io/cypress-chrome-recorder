@@ -69,6 +69,21 @@ const stringifiedContent = await cypressStringifyChromeRecording(
 return stringifiedContent;
 ```
 
+## Supported Chrome Recorder Step Types
+
+Below are the step types that are currently supported:
+
+| Type        | Description                                   |
+| ----------- | --------------------------------------------- |
+| click       | becomes **cy.click(element)**                 |
+| change      | becomes **cy.get(element).type("text")**      |
+| keyDown     | becomes **cy.type("{key}")**                  |
+| navigate    | becomes **cy.visit("url")**                   |
+| setViewport | becomes **cy.viewport(width, height)**        |
+| scroll      | becomes **cy.scrollTo(${step.x}, ${step.y})** |
+
+If a step type is not supported (ie. `keyUp`) then a warning message will be displayed in the CLI.
+
 ## License
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cypress-io/cypress-chrome-recorder/blob/master/LICENSE)

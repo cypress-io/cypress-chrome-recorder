@@ -1,6 +1,11 @@
 import { assert } from 'chai';
 import { LineWriterImpl } from './LineWriterImpl.js';
 import { CypressStringifyExtension } from '../src/CypressStringifyExtension.js';
+import {
+  SupportedRecorderKeysKeys,
+  supportedRecorderKeys,
+} from '../dist/constants.js';
+import { Schema } from '@puppeteer/replay';
 
 describe('CypressStringifyExtension', function () {
   it('correctly exports Chrome Recorder click step', async function () {
@@ -110,7 +115,41 @@ describe('CypressStringifyExtension', function () {
     assert.equal(writer.toString(), '');
   });
 
-  it('correctly handles keyUp step type', async function () {
+  it('correctly handles keyDown step types that are supported', async function () {
+    Object.keys(supportedRecorderKeys).map(async (key) => {
+      const ext = new CypressStringifyExtension();
+      const step = {
+        type: 'keyDown' as const,
+        target: 'main',
+        key: supportedRecorderKeys[
+          key as SupportedRecorderKeysKeys
+        ].toUpperCase() as Schema.Key,
+      };
+      const flow = { title: 'keyUp step', steps: [step] };
+      const writer = new LineWriterImpl('  ');
+
+      await ext.stringifyStep(writer, step, flow);
+
+      assert.equal(writer.toString(), `cy.type("{${key}}");\n`);
+    });
+  });
+
+  it('correctly handles keyDown step type that are not supported', async function () {
+    const ext = new CypressStringifyExtension();
+    const step = {
+      type: 'keyDown' as const,
+      target: 'main',
+      key: 'Meta' as const,
+    };
+    const flow = { title: 'keyUp step', steps: [step] };
+    const writer = new LineWriterImpl('  ');
+
+    await ext.stringifyStep(writer, step, flow);
+
+    assert.equal(writer.toString(), '');
+  });
+
+  it('correctly handles keyUp step type by ignoring it for now', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
       type: 'keyUp' as const,

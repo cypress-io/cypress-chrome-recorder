@@ -1,6 +1,9 @@
 import { LineWriter, Schema, StringifyExtension } from '@puppeteer/replay';
 
-// import { recorderChangeTypes } from './constants.js';
+import {
+  SupportedRecorderKeysKeys,
+  supportedRecorderKeys,
+} from './constants.js';
 
 export class CypressStringifyExtension extends StringifyExtension {
   async beforeAllSteps(out: LineWriter, flow: Schema.UserFlow): Promise<void> {
@@ -43,6 +46,10 @@ export class CypressStringifyExtension extends StringifyExtension {
         return this.#appendScrollStep(out, step, flow);
       case 'navigate':
         return this.#appendNavigationStep(out, step);
+      case 'keyDown':
+        return this.#appendKeyDownStep(out, step);
+      case 'keyUp':
+        return;
       default:
         return assertAllValidStepTypesAreHandled(step);
     }
@@ -76,6 +83,16 @@ export class CypressStringifyExtension extends StringifyExtension {
     }
 
     out.appendLine('');
+  }
+
+  #appendKeyDownStep(out: LineWriter, step: Schema.KeyDownStep): void {
+    const pressedKey = step.key.toLowerCase() as SupportedRecorderKeysKeys;
+
+    if (pressedKey in supportedRecorderKeys) {
+      const keyValue = supportedRecorderKeys[pressedKey];
+      out.appendLine(`cy.type(${formatAsJSLiteral(`{${keyValue}}`)});`);
+      out.appendLine('');
+    }
   }
 
   #appendNavigationStep(out: LineWriter, step: Schema.NavigateStep): void {
@@ -142,6 +159,6 @@ function handleSelectors(
 
 function assertAllValidStepTypesAreHandled(step: Schema.Step): void {
   console.log(
-    `Cypress does not currently handle migrating step type: ${step.type}`
+    `Warning: Cypress does not currently handle migrating steps of type: ${step.type}. Please check the output to see how this might affect your test.`
   );
 }
