@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.2.0...v1.3.0) (2022-05-03)
+
+
+### Bug Fixes
+
+* update file extension ([32b6bab](https://github.com/cypress-io/cypress-chrome-recorder/commit/32b6bab97a98139149f1b9850b1f94cfde3fbf92))
+
+
+### Features
+
+* add supported keys for keyDown step. ([cdea4c6](https://github.com/cypress-io/cypress-chrome-recorder/commit/cdea4c6eccfc7bc313494b56c5741925669b1636))
+
 # [1.2.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.1.1...v1.2.0) (2022-04-29)
 
 
