@@ -4,7 +4,7 @@ import { CypressStringifyExtension } from '../src/CypressStringifyExtension.js';
 import {
   SupportedRecorderKeysKeys,
   supportedRecorderKeys,
-} from '../dist/constants.js';
+} from '../src/constants.js';
 import { Schema } from '@puppeteer/replay';
 
 describe('CypressStringifyExtension', function () {
