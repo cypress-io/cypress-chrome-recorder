@@ -25,6 +25,41 @@ describe('CypressStringifyExtension', function () {
     assert.equal(writer.toString(), 'cy.get("#test").click();\n');
   });
 
+  it('correctly exports Chrome Recorder doubleClick step', async function () {
+    const ext = new CypressStringifyExtension();
+    const step = {
+      type: 'doubleClick' as const,
+      target: 'main',
+      selectors: [['aria/Test'], ['#test']],
+      offsetX: 1,
+      offsetY: 1,
+    };
+    const flow = { title: 'click step', steps: [step] };
+    const writer = new LineWriterImpl('  ');
+
+    await ext.stringifyStep(writer, step, flow);
+
+    assert.equal(writer.toString(), 'cy.get("#test").dblclick();\n');
+  });
+
+  it('correctly exports Chrome Recorder click step with right click', async function () {
+    const ext = new CypressStringifyExtension();
+    const step = {
+      type: 'click' as const,
+      target: 'main',
+      selectors: [['aria/Test'], ['#test']],
+      button: 'secondary' as const,
+      offsetX: 1,
+      offsetY: 1,
+    };
+    const flow = { title: 'click step', steps: [step] };
+    const writer = new LineWriterImpl('  ');
+
+    await ext.stringifyStep(writer, step, flow);
+
+    assert.equal(writer.toString(), 'cy.get("#test").rightclick();\n');
+  });
+
   it('correctly exports Chrome Recorder navigate step', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
