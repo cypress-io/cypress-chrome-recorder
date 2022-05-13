@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.3.0...v1.4.0) (2022-05-13)
+
+
+### Features
+
+* **dblclick:** add support for dblclick. ([2e14fa6](https://github.com/cypress-io/cypress-chrome-recorder/commit/2e14fa6f603d4eb8a277d7c49e875f1fc6143487))
+* **rightclick:** add support for click events with secondary button presses. ([64b0a1d](https://github.com/cypress-io/cypress-chrome-recorder/commit/64b0a1d488c11e9e0353c0010ed99a49be06896d))
+
 # [1.3.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.2.0...v1.3.0) (2022-05-03)
 
 
