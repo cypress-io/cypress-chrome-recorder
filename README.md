@@ -8,7 +8,7 @@ This repo provides tools to export Cypress Tests from Google Chrome DevTools' Re
 
 In order to export JSON files from Chrome DevTools Recorder you will need to be on Chrome 101 or newer.
 
-`dblClick` requires Chrome 103 or newer.
+`dblClick` and `rightclick` require Chrome 103 or newer.
 
 ## Installation
 
@@ -75,16 +75,17 @@ return stringifiedContent;
 
 Below are the step types that are currently supported:
 
-| Type        | Description                                   |
-| ----------- | --------------------------------------------- |
-| click       | becomes **cy.get("_element_").click();**      |
-| doubleClick | becomes **cy.get("_element_").dblclick();**   |
-| change      | becomes **cy.get("_element_").type("text")**  |
-| keyDown     | becomes **cy.type("{key}")**                  |
-| keyUp       | _not exported at this time_                   |
-| navigate    | becomes **cy.visit("url")**                   |
-| setViewport | becomes **cy.viewport(width, height)**        |
-| scroll      | becomes **cy.scrollTo(${step.x}, ${step.y})** |
+| Type                | Description                                   |
+| ------------------- | --------------------------------------------- |
+| click               | becomes **cy.get("_element_").click();**      |
+| click (right click) | becomes **cy.get("_element_").rightclick();** |
+| doubleClick         | becomes **cy.get("_element_").dblclick();**   |
+| change              | becomes **cy.get("_element_").type("text")**  |
+| keyDown             | becomes **cy.type("{key}")**                  |
+| keyUp               | _not exported at this time_                   |
+| navigate            | becomes **cy.visit("url")**                   |
+| setViewport         | becomes **cy.viewport(width, height)**        |
+| scroll              | becomes **cy.scrollTo(${step.x}, ${step.y})** |
 
 If a step type is not listed above, then a warning message should be displayed in the CLI.
 

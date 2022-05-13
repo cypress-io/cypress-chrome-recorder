@@ -73,13 +73,16 @@ export class CypressStringifyExtension extends StringifyExtension {
 
   #appendClickStep(
     out: LineWriter,
-    step: Schema.ClickStep | Schema.DoubleClickStep,
+    step: Schema.ClickStep,
     flow: Schema.UserFlow
   ): void {
     const cySelector = handleSelectors(step.selectors, flow);
+    const hasRightClick = step.button && step.button === 'secondary';
 
     if (cySelector) {
-      out.appendLine(`${cySelector}.click();`);
+      hasRightClick
+        ? out.appendLine(`${cySelector}.rightclick();`)
+        : out.appendLine(`${cySelector}.click();`);
     } else {
       console.log(
         `Warning: The click on ${step.selectors[0]} was not able to be exported to Cypress. Please adjust your selectors and try again.`
