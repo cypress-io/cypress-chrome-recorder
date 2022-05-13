@@ -8,6 +8,8 @@ This repo provides tools to export Cypress Tests from Google Chrome DevTools' Re
 
 In order to export JSON files from Chrome DevTools Recorder you will need to be on Chrome 101 or newer.
 
+`dblClick` requires Chrome 103 or newer.
+
 ## Installation
 
 ```sh
@@ -75,8 +77,9 @@ Below are the step types that are currently supported:
 
 | Type        | Description                                   |
 | ----------- | --------------------------------------------- |
-| click       | becomes **cy.click(element)**                 |
-| change      | becomes **cy.get(element).type("text")**      |
+| click       | becomes **cy.get("_element_").click();**      |
+| doubleClick | becomes **cy.get("_element_").dblclick();**   |
+| change      | becomes **cy.get("_element_").type("text")**  |
 | keyDown     | becomes **cy.type("{key}")**                  |
 | keyUp       | _not exported at this time_                   |
 | navigate    | becomes **cy.visit("url")**                   |
