@@ -38,6 +38,8 @@ export class CypressStringifyExtension extends StringifyExtension {
     switch (step.type) {
       case 'click':
         return this.#appendClickStep(out, step, flow);
+      case 'doubleClick':
+        return this.#appendClickStep(out, step, flow);
       case 'change':
         return this.#appendChangeStep(out, step, flow);
       case 'setViewport':
@@ -71,15 +73,19 @@ export class CypressStringifyExtension extends StringifyExtension {
 
   #appendClickStep(
     out: LineWriter,
-    step: Schema.ClickStep,
+    step: Schema.ClickStep | Schema.DoubleClickStep,
     flow: Schema.UserFlow
   ): void {
     const cySelector = handleSelectors(step.selectors, flow);
 
     if (cySelector) {
-      out.appendLine(`${cySelector}.click();`);
+      step.type === 'doubleClick'
+        ? out.appendLine(`${cySelector}.dblclick();`)
+        : out.appendLine(`${cySelector}.click();`);
     } else {
-      out.appendLine(' // TODO');
+      console.log(
+        `Warning: The click on ${step.selectors[0]} was not able to be exported to Cypress. Please adjust your selectors and try again.`
+      );
     }
 
     out.appendLine('');

@@ -105,10 +105,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@puppeteer/replay@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@puppeteer/replay/-/replay-0.1.1.tgz#a1f7358f786c2795a28d815330bb5ff49717f3e8"
-  integrity sha512-yRLeEdb+QDVpmv3VQlebNdmLxuwGCVuHrUnoMQPuJuXBObKlIIuo2ULzWGW4Gsd4i4vCRdrl4Jxqak8+wHn3lw==
+"@puppeteer/replay@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@puppeteer/replay/-/replay-0.1.2.tgz#40799c9c6f8ad8b2cf5099a8255a8c7d43bb4be2"
+  integrity sha512-tRNzEjj/OvqJQMy66hUYHyzqh5bhMQKl3pSeeLCHM4ZMDW3KXYbacCe8+cDAYZ+aZ5HW0O9tgdyXcsRVl7SsdQ==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
