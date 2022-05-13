@@ -73,7 +73,7 @@ export class CypressStringifyExtension extends StringifyExtension {
 
   #appendClickStep(
     out: LineWriter,
-    step: Schema.ClickStep | Schema.DoubleClickStep,
+    step: Schema.ClickStep,
     flow: Schema.UserFlow
   ): void {
     const cySelector = handleSelectors(step.selectors, flow);
