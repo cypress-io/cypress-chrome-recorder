@@ -1,10 +1,10 @@
 # @cypress/chrome-recorder
 
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/cypress-io/cypress-chrome-recorder) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+![npm version](https://img.shields.io/npm/v/@cypress/chrome-recorder) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 This repo provides tools to export Cypress Tests from Google Chrome DevTools' Recordings
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/-RJuZrq-wOk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Cypress Chrome Recorder Demo](https://img.youtube.com/vi/-RJuZrq-wOk/0.jpg)](https://youtu.be/-RJuZrq-wOk)
 
 ## Prerequisites
 
