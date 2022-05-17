@@ -1,6 +1,6 @@
 # @cypress/chrome-recorder
 
-![npm version](https://img.shields.io/npm/v/@cypress/chrome-recorder) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![npm version](https://img.shields.io/npm/v/@cypress/chrome-recorder)](https://www.npmjs.com/package/@cypress/chrome-recorder) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 This repo provides tools to export Cypress Tests from Google Chrome DevTools' Recordings
 
