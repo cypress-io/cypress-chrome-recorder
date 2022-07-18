@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.4.0...v2.0.0) (2022-07-18)
+
+
+### Features
+
+* Update the output path from .spec to .cy  ([04163b3](https://github.com/cypress-io/cypress-chrome-recorder/commit/04163b3a8d736fc58fefeac031db0647cba28fbe))
+
+
+### BREAKING CHANGES
+
+* Update the output path from .spec to .cy for v10
+
 # [1.4.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.3.0...v1.4.0) (2022-05-13)
 
 
