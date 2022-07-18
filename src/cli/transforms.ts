@@ -34,7 +34,7 @@ async function exportFileToFolder({
       if (!err) {
         console.log(
           chalk.green(
-            `\n${testName}.json exported to ${outputPath}/${testName}.spec.js\n`
+            `\n${testName}.json exported to ${outputPath}/${testName}.cy.js\n`
           )
         );
       }
