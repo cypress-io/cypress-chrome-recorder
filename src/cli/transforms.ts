@@ -11,7 +11,6 @@ type Flags = {
   force?: boolean;
   dry?: boolean;
   path?: string;
-  print?: boolean;
 };
 
 interface FileToExport {
@@ -73,14 +72,11 @@ export async function runTransforms({
 }): Promise<Promise<string | void>[] | undefined> {
   const transformPath = path.join(__dirname, '/dist/main.js');
   const outputFolder = path.join(__dirname, outputPath);
-  const { dry, print } = flags;
+  const { dry } = flags;
   const args = ['-t', transformPath].concat(files);
 
   if (dry) {
     args.push('--dry');
-  }
-  if (print) {
-    args.push('--print');
   }
 
   return files.map(async (file) => {
