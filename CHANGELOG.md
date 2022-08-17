@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v2.0.0...v2.1.0) (2022-08-17)
+
+
+### Features
+
+* add assertion for navigation event after click. update replay library. ([c6b21b3](https://github.com/cypress-io/cypress-chrome-recorder/commit/c6b21b320180f31837a199c1b881edf78e707a50))
+
 # [2.0.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v1.4.0...v2.0.0) (2022-07-18)
 
 
