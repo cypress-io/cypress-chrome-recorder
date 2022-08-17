@@ -90,7 +90,7 @@ export class CypressStringifyExtension extends StringifyExtension {
     }
 
     if (step.assertedEvents) {
-      step.assertedEvents.map((event) => {
+      step.assertedEvents.forEach((event) => {
         if (event.type === 'navigation') {
           out.appendLine(`cy.location("href").should("eq", "${event.url}");`);
         }
