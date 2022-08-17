@@ -67,11 +67,11 @@ describe('CypressStringifyExtension', function () {
       assertedEvents: [
         {
           type: 'navigation' as const,
-          url: 'https://coffee-cart.netlify.app/',
+          url: 'https://learn.cypress.io/',
           title: 'Coffee cart',
         },
       ],
-      url: 'https://coffee-cart.netlify.app/',
+      url: 'https://learn.cypress.io/',
     };
     const flow = { title: 'navigate step', steps: [step] };
     const writer = new LineWriterImpl('  ');
@@ -80,8 +80,32 @@ describe('CypressStringifyExtension', function () {
 
     assert.equal(
       writer.toString(),
-      'cy.visit("https://coffee-cart.netlify.app/");\n'
+      'cy.visit("https://learn.cypress.io/");\n'
     );
+  });
+
+  it('correctly handles Chrome Recorder click step with asserted navigation', async function () {
+    const ext = new CypressStringifyExtension();
+    const step = {
+      type: 'click' as const,
+      target: 'main',
+      selectors: [['aria/Test'], ['#test']],
+      assertedEvents: [
+        {
+          type: 'navigation' as const,
+          url: 'https://learn.cypress.io/',
+          title: 'Coffee cart',
+        },
+      ],
+      offsetX: 1,
+      offsetY: 1,
+    };
+    const flow = { title: 'click step', steps: [step] };
+    const writer = new LineWriterImpl('  ');
+
+    await ext.stringifyStep(writer, step, flow);
+
+    assert.equal(writer.toString(), 'cy.get("#test").click();\ncy.location("href").should("eq", "https://learn.cypress.io/");\n');
   });
 
   it('correctly exports Chrome Recorder scroll step', async function () {
