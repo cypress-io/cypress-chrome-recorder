@@ -222,4 +222,19 @@ describe('CypressStringifyExtension', function () {
 
     assert.equal(writer.toString(), '');
   });
+
+  it('correctly handles Chrome Recorder hover step', async function () {
+    const ext = new CypressStringifyExtension();
+    const step = {
+      type: 'hover' as const,
+      target: 'main',
+      selectors: [['aria/Test'], ['#test']],
+    };
+    const flow = { title: 'hover step', steps: [step] };
+    const writer = new LineWriterImpl('  ');
+
+    await ext.stringifyStep(writer, step, flow);
+
+    assert.equal(writer.toString(), `cy.get("#test").trigger("mouseenter");\n`);
+  });
 });
