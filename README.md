@@ -2,7 +2,9 @@
 
 [![npm version](https://img.shields.io/npm/v/@cypress/chrome-recorder)](https://www.npmjs.com/package/@cypress/chrome-recorder) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-This repo provides tools to export Cypress Tests from Google Chrome DevTools' Recordings
+This repo provides tools to export Cypress Tests from [Google Chrome DevTools' Recordings](https://goo.gle/devtools-recorder) programmatically.
+
+Install [Cypress Chrome Recorder extension](https://github.com/cypress-io/cypress-recorder-extension) if you want to export the recordings directly from the Chrome DevTools' Recorder UI.
 
 [![Cypress Chrome Recorder Demo](https://img.youtube.com/vi/-RJuZrq-wOk/0.jpg)](https://youtu.be/-RJuZrq-wOk)
 
