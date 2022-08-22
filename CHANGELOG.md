@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v2.1.0...v2.2.0) (2022-08-22)
+
+
+### Features
+
+* **hover:** add support for hover ([d6674b5](https://github.com/cypress-io/cypress-chrome-recorder/commit/d6674b5e8ee023113efe5fc14086ada9e1820293))
+
 # [2.1.0](https://github.com/cypress-io/cypress-chrome-recorder/compare/v2.0.0...v2.1.0) (2022-08-17)
 
 
