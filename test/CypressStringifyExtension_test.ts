@@ -235,6 +235,6 @@ describe('CypressStringifyExtension', function () {
 
     await ext.stringifyStep(writer, step, flow);
 
-    assert.equal(writer.toString(), `cy.get("#test").trigger("mouseenter");\n`);
+    assert.equal(writer.toString(), `cy.get("#test").trigger("mouseover");\n`);
   });
 });
