@@ -5,13 +5,13 @@ import {
   SupportedRecorderKeysKeys,
   supportedRecorderKeys,
 } from '../src/constants.js';
-import { Schema } from '@puppeteer/replay';
+import { Schema, StepType, AssertedEventType } from '@puppeteer/replay';
 
 describe('CypressStringifyExtension', function () {
   it('correctly exports Chrome Recorder click step', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'click' as const,
+      type: StepType.Click as const,
       target: 'main',
       selectors: [['aria/Test'], ['#test']],
       offsetX: 1,
@@ -28,7 +28,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly exports Chrome Recorder doubleClick step', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'doubleClick' as const,
+      type: StepType.DoubleClick as const,
       target: 'main',
       selectors: [['aria/Test'], ['#test']],
       offsetX: 1,
@@ -45,7 +45,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly exports Chrome Recorder click step with right click', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'click' as const,
+      type: StepType.Click as const,
       target: 'main',
       selectors: [['aria/Test'], ['#test']],
       button: 'secondary' as const,
@@ -63,10 +63,10 @@ describe('CypressStringifyExtension', function () {
   it('correctly exports Chrome Recorder navigate step', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'navigate' as const,
+      type: StepType.Navigate as const,
       assertedEvents: [
         {
-          type: 'navigation' as const,
+          type: AssertedEventType.Navigation as const,
           url: 'https://learn.cypress.io/',
           title: 'Coffee cart',
         },
@@ -87,12 +87,12 @@ describe('CypressStringifyExtension', function () {
   it('correctly handles Chrome Recorder click step with asserted navigation', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'click' as const,
+      type: StepType.Click as const,
       target: 'main',
       selectors: [['aria/Test'], ['#test']],
       assertedEvents: [
         {
-          type: 'navigation' as const,
+          type: AssertedEventType.Navigation as const,
           url: 'https://learn.cypress.io/',
           title: 'Coffee cart',
         },
@@ -111,7 +111,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly exports Chrome Recorder scroll step', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'scroll' as const,
+      type: StepType.Scroll as const,
       target: 'main',
       x: 0,
       y: 805,
@@ -127,7 +127,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly exports Chrome Recorder setViewport step', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'setViewport' as const,
+      type: StepType.SetViewport as const,
       width: 843,
       height: 1041,
       deviceScaleFactor: 1,
@@ -146,7 +146,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly exports Chrome Recorder change step', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'change' as const,
+      type: StepType.Change as const,
       target: 'main',
       selectors: [['aria/Name'], ['#name']],
       value: 'jane',
@@ -162,7 +162,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly handles keyDown step type', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'keyDown' as const,
+      type: StepType.KeyDown as const,
       target: 'main',
       key: 'Meta' as const,
     };
@@ -178,7 +178,7 @@ describe('CypressStringifyExtension', function () {
     Object.keys(supportedRecorderKeys).map(async (key) => {
       const ext = new CypressStringifyExtension();
       const step = {
-        type: 'keyDown' as const,
+        type: StepType.KeyDown as const,
         target: 'main',
         key: supportedRecorderKeys[
           key as SupportedRecorderKeysKeys
@@ -196,7 +196,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly handles keyDown step type that are not supported', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'keyDown' as const,
+      type: StepType.KeyDown as const,
       target: 'main',
       key: 'Meta' as const,
     };
@@ -211,7 +211,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly handles keyUp step type by ignoring it for now', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'keyUp' as const,
+      type: StepType.KeyUp as const,
       target: 'main',
       key: 'Meta' as const,
     };
@@ -226,7 +226,7 @@ describe('CypressStringifyExtension', function () {
   it('correctly handles Chrome Recorder hover step', async function () {
     const ext = new CypressStringifyExtension();
     const step = {
-      type: 'hover' as const,
+      type: StepType.Hover as const,
       target: 'main',
       selectors: [['aria/Test'], ['#test']],
     };

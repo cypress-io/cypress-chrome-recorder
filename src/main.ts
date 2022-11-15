@@ -1,4 +1,4 @@
-import { parse, stringify, Schema } from '@puppeteer/replay';
+import { parse, stringify, stringifyStep, Schema } from '@puppeteer/replay';
 import { CypressStringifyExtension } from './CypressStringifyExtension.js';
 
 export function parseRecordingContent(
@@ -11,6 +11,12 @@ export async function stringifyParsedRecording(
   parsedRecording: Schema.UserFlow
 ): Promise<Promise<string> | undefined> {
   return await stringify(parsedRecording, {
+    extension: new CypressStringifyExtension(),
+  });
+}
+
+export async function stringifyParsedStep(step: Schema.Step): Promise<string> {
+  return await stringifyStep(step, {
     extension: new CypressStringifyExtension(),
   });
 }

@@ -1,4 +1,4 @@
-import { LineWriter, Schema, StringifyExtension } from '@puppeteer/replay';
+import { LineWriter, Schema, StringifyExtension, StepType } from '@puppeteer/replay';
 
 import {
   SupportedRecorderKeysKeys,
@@ -36,26 +36,24 @@ export class CypressStringifyExtension extends StringifyExtension {
     flow: Schema.UserFlow
   ): void {
     switch (step.type) {
-      case 'click':
+      case StepType.Click:
         return this.#appendClickStep(out, step, flow);
-      case 'doubleClick':
+      case StepType.DoubleClick:
         return this.#appendDoubleClickStep(out, step, flow);
-      case 'change':
+      case StepType.Change:
         return this.#appendChangeStep(out, step, flow);
-      case 'setViewport':
+      case StepType.SetViewport:
         return this.#appendViewportStep(out, step);
-      case 'scroll':
+      case StepType.Scroll:
         return this.#appendScrollStep(out, step, flow);
-      case 'navigate':
+      case StepType.Navigate:
         return this.#appendNavigationStep(out, step);
-      case 'keyDown':
+      case StepType.KeyDown:
         return this.#appendKeyDownStep(out, step);
-      case 'hover':
+      case StepType.Hover:
         return this.#appendHoverStep(out, step, flow);
-      case 'keyUp':
+      case StepType.KeyDown:
         return;
-      default:
-        return assertAllValidStepTypesAreHandled(step);
     }
   }
 
@@ -119,7 +117,7 @@ export class CypressStringifyExtension extends StringifyExtension {
 
     out.appendLine('');
   }
-  
+
   #appendHoverStep(
     out: LineWriter,
     step: Schema.HoverStep,
@@ -129,7 +127,7 @@ export class CypressStringifyExtension extends StringifyExtension {
 
     if (cySelector) {
       out.appendLine(`${cySelector}.trigger("mouseover");`);
-    } 
+    }
 
     out.appendLine('');
   }

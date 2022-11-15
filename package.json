@@ -31,14 +31,14 @@
   },
   "homepage": "https://github.com/cypress-io/cypress-chrome-recorder#readme",
   "dependencies": {
-    "@puppeteer/replay": "^0.6.1",
+    "@puppeteer/replay": "^2.1.0",
     "chalk": "^5.0.1",
     "execa": "^6.1.0",
     "globby": "^13.1.1",
     "inquirer": "^8.2.1",
     "is-git-clean": "^1.1.0",
     "meow": "^10.1.2",
-    "puppeteer": "^16.1.1"
+    "puppeteer": "^19.2.2"
   },
   "devDependencies": {
     "@types/chai": "^4.3.0",
