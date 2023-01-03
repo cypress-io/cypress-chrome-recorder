@@ -25,6 +25,14 @@ export class LineWriterImpl implements LineWriter {
     this.#indentation = indentation;
   }
 
+  getIndent(): string {
+    return this.#indentation;
+  }
+
+  getSize(): number {
+    return this.#lines.length;
+  }
+
   appendLine(line: string): LineWriter {
     const indentedLine = line
       ? this.#indentation.repeat(this.#currentIndentation) + line.trimEnd()
