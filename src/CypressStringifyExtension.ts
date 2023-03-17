@@ -7,21 +7,21 @@ import {
 
 export class CypressStringifyExtension extends StringifyExtension {
   async beforeAllSteps(out: LineWriter, flow: Schema.UserFlow): Promise<void> {
-    out.appendLine(`describe(${formatAsJSLiteral(flow.title)}, () => {`);
+    out.appendLine(`describe(${formatAsJSLiteral(flow.title)}, () => {`).startBlock();
     out
       .appendLine(`it(${formatAsJSLiteral(`tests ${flow.title}`)}, () => {`)
       .startBlock();
   }
 
   async afterAllSteps(out: LineWriter): Promise<void> {
-    out.appendLine('});').endBlock();
-    out.appendLine('});');
+    out.endBlock().appendLine('});');
+    out.endBlock().appendLine('});');
   }
 
   async stringifyStep(
     out: LineWriter,
     step: Schema.Step,
-    flow: Schema.UserFlow
+    flow?: Schema.UserFlow
   ): Promise<void> {
     this.#appendStepType(out, step, flow);
 
@@ -33,7 +33,7 @@ export class CypressStringifyExtension extends StringifyExtension {
   #appendStepType(
     out: LineWriter,
     step: Schema.Step,
-    flow: Schema.UserFlow
+    flow?: Schema.UserFlow
   ): void {
     switch (step.type) {
       case StepType.Click:
@@ -52,29 +52,25 @@ export class CypressStringifyExtension extends StringifyExtension {
         return this.#appendKeyDownStep(out, step);
       case StepType.Hover:
         return this.#appendHoverStep(out, step, flow);
-      case StepType.KeyDown:
-        return;
     }
   }
 
   #appendChangeStep(
     out: LineWriter,
     step: Schema.ChangeStep,
-    flow: Schema.UserFlow
+    flow?: Schema.UserFlow
   ): void {
     const cySelector = handleSelectors(step.selectors, flow);
 
     if (cySelector) {
       out.appendLine(`${cySelector}.type(${formatAsJSLiteral(step.value)});`);
     }
-
-    out.appendLine('');
   }
 
   #appendClickStep(
     out: LineWriter,
     step: Schema.ClickStep,
-    flow: Schema.UserFlow
+    flow?: Schema.UserFlow
   ): void {
     const cySelector = handleSelectors(step.selectors, flow);
     const hasRightClick = step.button && step.button === 'secondary';
@@ -96,14 +92,12 @@ export class CypressStringifyExtension extends StringifyExtension {
         }
       });
     }
-
-    out.appendLine('');
   }
 
   #appendDoubleClickStep(
     out: LineWriter,
     step: Schema.DoubleClickStep,
-    flow: Schema.UserFlow
+    flow?: Schema.UserFlow
   ): void {
     const cySelector = handleSelectors(step.selectors, flow);
 
@@ -114,14 +108,12 @@ export class CypressStringifyExtension extends StringifyExtension {
         `Warning: The click on ${step.selectors[0]} was not able to be exported to Cypress. Please adjust your selectors and try again.`
       );
     }
-
-    out.appendLine('');
   }
 
   #appendHoverStep(
     out: LineWriter,
     step: Schema.HoverStep,
-    flow: Schema.UserFlow
+    flow?: Schema.UserFlow
   ): void {
     const cySelector = handleSelectors(step.selectors, flow);
 
@@ -129,7 +121,6 @@ export class CypressStringifyExtension extends StringifyExtension {
       out.appendLine(`${cySelector}.trigger("mouseover");`);
     }
 
-    out.appendLine('');
   }
 
   #appendKeyDownStep(out: LineWriter, step: Schema.KeyDownStep): void {
@@ -138,19 +129,17 @@ export class CypressStringifyExtension extends StringifyExtension {
     if (pressedKey in supportedRecorderKeys) {
       const keyValue = supportedRecorderKeys[pressedKey];
       out.appendLine(`cy.type(${formatAsJSLiteral(`{${keyValue}}`)});`);
-      out.appendLine('');
     }
   }
 
   #appendNavigationStep(out: LineWriter, step: Schema.NavigateStep): void {
     out.appendLine(`cy.visit(${formatAsJSLiteral(step.url)});`);
-    out.appendLine('');
   }
 
   #appendScrollStep(
     out: LineWriter,
     step: Schema.ScrollStep,
-    flow: Schema.UserFlow
+    flow?: Schema.UserFlow
   ): void {
     if ('selectors' in step) {
       out.appendLine(
@@ -161,12 +150,10 @@ export class CypressStringifyExtension extends StringifyExtension {
     } else {
       out.appendLine(`cy.scrollTo(${step.x}, ${step.y});`);
     }
-    out.appendLine('');
   }
 
   #appendViewportStep(out: LineWriter, step: Schema.SetViewportStep): void {
     out.appendLine(`cy.viewport(${step.width}, ${step.height});`);
-    out.appendLine('');
   }
 }
 
@@ -184,14 +171,14 @@ function filterArrayByString(selectors: Schema.Selector[], value: string) {
 
 function handleSelectors(
   selectors: Schema.Selector[],
-  flow: Schema.UserFlow
+  flow?: Schema.UserFlow
 ): string | undefined {
   // Remove Aria selectors in favor of DOM selectors
   const nonAriaSelectors = filterArrayByString(selectors, 'aria/');
   let preferredSelector;
 
   // Give preference to user-specified selectors
-  if (flow.selectorAttribute) {
+  if (flow?.selectorAttribute) {
     preferredSelector = filterArrayByString(
       nonAriaSelectors,
       flow.selectorAttribute
