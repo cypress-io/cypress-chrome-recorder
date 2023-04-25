@@ -24,7 +24,7 @@
     "automation",
     "devtools"
   ],
-  "author": "Cypress DX",
+  "author": "Cypress-io",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cypress-io/cypress-chrome-recorder/issues"
