@@ -133,7 +133,9 @@ export class CypressStringifyExtension extends StringifyExtension {
       flow?: Schema.UserFlow
   ): void {
     console.dir(step);
-    const fixedSelectors: string[][] = []; // This is needed because chromes selectors on wait for element are other type
+    // Temporary fix because chromes selector list on WaitForElement differs from other events
+    // selectors in WaitForElement are string[] instead of string[][]
+    const fixedSelectors: string[][] = [];
     for (const selector of step.selectors) {
       fixedSelectors.push([selector.toString()]);
     }
