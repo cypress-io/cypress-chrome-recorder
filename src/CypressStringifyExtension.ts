@@ -209,7 +209,7 @@ function handleSelectors(
 
   let selectorAddition = '';
   if (timeout) {
-    selectorAddition = `, { timeout: ${timeout}}`
+    selectorAddition = `, { timeout: ${timeout} }`
   }
   if (preferredSelector && preferredSelector[0]) {
     return `cy.get(${formatAsJSLiteral(preferredSelector[0][0])}${selectorAddition})`;

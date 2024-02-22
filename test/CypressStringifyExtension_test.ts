@@ -239,4 +239,17 @@ describe("click step", () => {
     });
     assert.equal(result.toString(), `cy.get("#test").trigger("mouseover");\n`);
   });
+
+  it('correctly handles Chrome Recorder waitForElement step', async function () {
+    const step = {
+      type: StepType.WaitForElement as const,
+      target: 'main',
+      timeout: 5000,
+      selectors: ['aria/Test', '#test'],
+    };
+    const result = await stringifyStep(step, {
+      extension,
+    });
+    assert.equal(result.toString(), `cy.get("#test", { timeout: 5000 }).should('be.visible');\n`);
+  });
 });
