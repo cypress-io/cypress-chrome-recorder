@@ -248,13 +248,15 @@ describe("click step", () => {
       offsetX: 1,
       offsetY: 1,
     };
+
     const result = await stringifyStep(step, {
       extension,
     });
+
     assert.equal(result.toString(), `cy.get("div:nth-of-type(1)").click();\n`);
   });
 
-  it('correctly skip aria selectos when there are an array of selectors on any kind of event', async function () {
+  it('correctly skip aria selectors when there are an array of selectors on any kind of event', async function () {
     const step = {
       type: StepType.Click as const,
       target: 'main',
@@ -265,9 +267,11 @@ describe("click step", () => {
       offsetX: 1,
       offsetY: 1,
     };
+
     const result = await stringifyStep(step, {
       extension,
     });
+
     assert.equal(result.toString(), `cy.get("main button").click();\n`);
   });
 });
