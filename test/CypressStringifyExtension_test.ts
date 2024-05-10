@@ -253,4 +253,21 @@ describe("click step", () => {
     });
     assert.equal(result.toString(), `cy.get("div:nth-of-type(1)").click();\n`);
   });
+
+  it('correctly skip aria selectos when there are an array of selectors on any kind of event', async function () {
+    const step = {
+      type: StepType.Click as const,
+      target: 'main',
+      selectors: [
+        "aria/npm install cypress",
+        "main button",
+      ],
+      offsetX: 1,
+      offsetY: 1,
+    };
+    const result = await stringifyStep(step, {
+      extension,
+    });
+    assert.equal(result.toString(), `cy.get("main button").click();\n`);
+  });
 });

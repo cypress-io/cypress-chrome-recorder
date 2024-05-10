@@ -162,10 +162,12 @@ function formatAsJSLiteral(value: string) {
 }
 
 function filterArrayByString(selectors: Schema.Selector[], value: string) {
-  return selectors.filter((selector) =>
-    value === 'aria/'
-      ? !selector[0].includes(value)
-      : selector[0].includes(value)
+  return selectors.filter((selector) => {
+    let userSelector = Array.isArray(selector) ? selector[0] : selector;
+    return value === 'aria/'
+        ? !userSelector.includes(value)
+        : userSelector.includes(value);
+    }
   );
 }
 
