@@ -187,7 +187,11 @@ function handleSelectors(
   if (preferredSelector && preferredSelector[0]) {
     return `cy.get(${formatAsJSLiteral(preferredSelector[0][0])})`;
   } else {
-    return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])})`;
+    if (Array.isArray(nonAriaSelectors[0])) {
+      return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])})`;
+    }
+
+    return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0])})`;
   }
 }
 
