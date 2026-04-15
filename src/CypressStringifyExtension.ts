@@ -162,10 +162,12 @@ function formatAsJSLiteral(value: string) {
 }
 
 function filterArrayByString(selectors: Schema.Selector[], value: string) {
-  return selectors.filter((selector) =>
-    value === 'aria/'
-      ? !selector[0].includes(value)
-      : selector[0].includes(value)
+  return selectors.filter((selector) => {
+    let userSelector = Array.isArray(selector) ? selector[0] : selector;
+    return value === 'aria/'
+        ? !userSelector.includes(value)
+        : userSelector.includes(value);
+    }
   );
 }
 
@@ -187,7 +189,11 @@ function handleSelectors(
   if (preferredSelector && preferredSelector[0]) {
     return `cy.get(${formatAsJSLiteral(preferredSelector[0][0])})`;
   } else {
-    return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])})`;
+    if (Array.isArray(nonAriaSelectors[0])) {
+      return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])})`;
+    }
+
+    return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0])})`;
   }
 }
 
