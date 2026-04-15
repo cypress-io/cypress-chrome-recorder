@@ -5,6 +5,7 @@ import {
   supportedRecorderKeys,
 } from './constants.js';
 
+
 export class CypressStringifyExtension extends StringifyExtension {
   async beforeAllSteps(out: LineWriter, flow: Schema.UserFlow): Promise<void> {
     out.appendLine(`describe(${formatAsJSLiteral(flow.title)}, () => {`).startBlock();
@@ -52,6 +53,8 @@ export class CypressStringifyExtension extends StringifyExtension {
         return this.#appendKeyDownStep(out, step);
       case StepType.Hover:
         return this.#appendHoverStep(out, step, flow);
+      case StepType.WaitForElement:
+        return this.#appendWaitForElementStep(out, step, flow);
     }
   }
 
@@ -123,6 +126,25 @@ export class CypressStringifyExtension extends StringifyExtension {
 
   }
 
+
+  #appendWaitForElementStep(
+      out: LineWriter,
+      step: Schema.WaitForElementStep,
+      flow?: Schema.UserFlow
+  ): void {
+    console.dir(step);
+    // Temporary fix because chromes selector list on WaitForElement differs from other events
+    // selectors in WaitForElement are string[] instead of string[][]
+    const fixedSelectors: string[][] = [];
+    for (const selector of step.selectors) {
+      fixedSelectors.push([selector.toString()]);
+    }
+    const cySelector = handleSelectors(fixedSelectors, flow, step.timeout);
+    if (cySelector) {
+      out.appendLine(`${cySelector}.should('be.visible');`);
+    }
+  }
+
   #appendKeyDownStep(out: LineWriter, step: Schema.KeyDownStep): void {
     const pressedKey = step.key.toLowerCase() as SupportedRecorderKeysKeys;
 
@@ -171,12 +193,12 @@ function filterArrayByString(selectors: Schema.Selector[], value: string) {
 
 function handleSelectors(
   selectors: Schema.Selector[],
-  flow?: Schema.UserFlow
+  flow?: Schema.UserFlow,
+  timeout?: number
 ): string | undefined {
   // Remove Aria selectors in favor of DOM selectors
   const nonAriaSelectors = filterArrayByString(selectors, 'aria/');
   let preferredSelector;
-
   // Give preference to user-specified selectors
   if (flow?.selectorAttribute) {
     preferredSelector = filterArrayByString(
@@ -184,10 +206,15 @@ function handleSelectors(
       flow.selectorAttribute
     );
   }
+
+  let selectorAddition = '';
+  if (timeout) {
+    selectorAddition = `, { timeout: ${timeout} }`
+  }
   if (preferredSelector && preferredSelector[0]) {
-    return `cy.get(${formatAsJSLiteral(preferredSelector[0][0])})`;
+    return `cy.get(${formatAsJSLiteral(preferredSelector[0][0])}${selectorAddition})`;
   } else {
-    return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])})`;
+    return `cy.get(${formatAsJSLiteral(nonAriaSelectors[0][0])}${selectorAddition})`;
   }
 }
 
